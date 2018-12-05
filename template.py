@@ -1,6 +1,6 @@
 # Setup
-from aocd import data
-d = data.split('\n')
+from aocd import get_data
+d = get_data(y=2018, day=).split('\n')
 
 # Longform
 
