@@ -8,33 +8,33 @@ def long_solution(data):
     from functools import reduce
     from agc import AdventGuidanceComputer as comp
 
-    def amplifier(signal, phase):
-        return comp()([phase, signal])
-
-    def amplifier_input():
-        a = 0
-        while True:
-            a = (yield a)
-            yield
-
     def amplifier_chain(phases):
-        amp_input = amplifier_input()
-        amps=comp(data)(chain([phases[4]],comp(data)(chain([phases[3]],comp(data)(chain([phases[2]],comp(data)(chain([phases[1]],comp(data)(chain([phases[0]],amp_input))))))))))
+        amp_input = [phases[0],0]
+        comp0=comp(data)(amp_input)
+        comp1=comp(data)(chain([phases[1]],comp0))
+        comp2=comp(data)(chain([phases[2]],comp1))
+        comp3=comp(data)(chain([phases[3]],comp2))
+        comp4=comp(data)(chain([phases[4]],comp3))
         try:
             while True:
-                output = next(amps)
-                amp_input.send(output)
+                amp_input.append(next(comp4))
         except StopIteration as e:
             pass
-        finally:
-            return output
+        return amp_input[-1]
 
     return max(map(amplifier_chain, permutations(range(5,10))))
 
 # Golfed
 def golfed_solution(d):
-    pass
+    from itertools import permutations,chain,repeat
+    from functools import reduce
+    from agc import AdventGuidanceComputer as comp
+
+    def c(l,p):
+        list(map(l.append,reduce(lambda x,y: comp(d)(chain(y,x)),map(lambda z:[z],p),l)))
+        return l[-1]
+    return max(c([0],p) for p in permutations(range(5,10)))
 
 # Output
-solve=0
+solve=1
 print([long_solution, golfed_solution][solve](aoc_data))
