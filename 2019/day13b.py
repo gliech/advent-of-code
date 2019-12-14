@@ -59,7 +59,7 @@ with term.fullscreen():
                         ball=x
                     print(term.move(y,x)+tileset[tile])
         except EndOfProgram:
-            with term.cbreak():
+            with term.raw():
                 term.inkey()
 print(score)
 
