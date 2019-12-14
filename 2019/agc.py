@@ -32,24 +32,26 @@ class AdventGuidanceComputer:
         self._init_runtime()
 
     def _relative_mode(self, parameter):
-        value = self._memory[parameter+self._relative_base]
-        self._print(f'{value}<'+f'{self._relative_base}{parameter:+} ')
-        return value
+        addr = parameter+self._relative_base
+        self._print(t.color(166)(self._fmt_int(addr, 4)))
+        return addr
 
     def _position_mode(self, parameter):
-        value = self._memory[parameter]
-        self._print(f'{value}<'+f'{parameter} ')
-        return value
+        addr = parameter
+        self._print(t.color(220)(self._fmt_int(addr, 4)))
+        return addr
 
     def _direct_mode(self, parameter):
-        self._print(f'{parameter} ')
-        return parameter
+        addr = self._position-1
+        self._print('self')
+        return addr
 
-    def _init_runtime(self, inputs=None):
+    def _init_runtime(self, inputs=None, silent=False):
         self._memory = defaultdict(partial(int,0),enumerate(self._program))
         self._position = 0
         self._relative_base = 0
         self._mode_ints = 0
+        self._silent = silent
         if inputs is not None:
             self._inputs = iter(inputs)
         else:
@@ -57,8 +59,26 @@ class AdventGuidanceComputer:
 
     @staticmethod
     def _input_generator():
-        for i in count(1):
-            yield int(input(f'input[{i}] '))
+        while True:
+            with t.location():
+                inpt = input('  kbrd: ')
+            yield int(inpt)
+
+    @staticmethod
+    def _fmt_int(number, length=7, fill_zero=True):
+        output = f'{number:{0 if fill_zero else ""}{length}}'
+        if len(output) > length:
+            cut_long = length//2
+            cut_short = cut_long+length%2-1
+            if number >=0:
+                cut_start=cut_short
+                cut_end=cut_long
+            else:
+                cut_start=cut_long
+                cut_end=cut_short
+            return '…'.join((output[:cut_start],output[-cut_end:]))
+        else:
+            return output
 
     def _increment(self):
         value = self._memory[self._position]
@@ -69,91 +89,89 @@ class AdventGuidanceComputer:
         self._position = destination
 
     def execute_instruction(self):
-        self._print(t.bright_yellow(f'{self._position:04}: '))
+        self._print(
+                t.color(220)(self._fmt_int(self._position, 4)),
+                t.color(166)(self._fmt_int(self._relative_base, 4)+': '))
         instruction = self._increment()
         opcode = instruction%100
         self._mode_ints = instruction//100
         function = self._instruction_set[opcode]
         self._print(
-                t.bold_bright_blue(f'{function.__name__[1:]:>6} ')+
-                t.bright_black(f'{instruction:05} '))
+                t.bold_bright_blue(f'{function.__name__[1:]:>7}'),
+                t.bright_black(self._fmt_int(instruction,5)))
         return function()
 
-    def _get_mode(self):
+    def _get_addr(self):
         mode = self._mode_ints%10
         self._mode_ints //= 10
-        return mode
-
-    def _get_parameter(self):
-        mode = self._get_mode()
         parameter = self._increment()
-        parameter_value = self._parameter_modes[mode](parameter)
-        return parameter_value
+        self._print('  ')
+        addr = self._parameter_modes[mode](parameter)
+        return addr
+
+    def _read_value(self):
+        addr = self._get_addr()
+        value = self._memory[addr]
+        self._print(t.bright_black('>')+self._fmt_int(value,7))
+        return value
 
     def _write_value(self, value):
-        mode = self._get_mode()
-        if mode == 0:
-            addr = self._increment()
-            self._memory[addr] = value
-            self._print(f'{value}'+f'>{addr}')
-        elif mode == 2:
-            addr = self._increment()
-            self._memory[addr+self._relative_base] = value
-            self._print(f'{value}'+f'>{self._relative_base}{addr:+}')
-        else:
-            raise ValueError(f'Tried to write value while parameter mode was \'{mode}\'')
+        addr = self._get_addr()
+        self._memory[addr] = value
+        self._print(t.bright_black('<')+t.bold(self._fmt_int(value,7)))
 
-    def __call__(self, inputs=None):
-        self._init_runtime(inputs)
+    def __call__(self, inputs=None, silent=False):
+        self._init_runtime(inputs,silent)
         try:
             while True:
-                sleep(0.000001)
                 output = self.execute_instruction()
                 self._print('\n')
                 if output is not None:
                     yield output
         except EndOfProgram as e:
             self._print('\n\n')
+            raise e
 
-    def _print(self, msg):
-        print(msg,end='')
+    def _print(self, *messages):
+        if not self._silent:
+            print(*messages,end='')
 
     def _add(self):
-        new_value = self._get_parameter()+self._get_parameter()
+        new_value = self._read_value()+self._read_value()
         self._write_value(new_value)
 
     def _mul(self):
-        new_value = self._get_parameter()*self._get_parameter()
+        new_value = self._read_value()*self._read_value()
         self._write_value(new_value)
 
     def _input(self):
         self._write_value(next(self._inputs))
 
     def _output(self):
-        return self._get_parameter()
+        return self._read_value()
 
     def _jmp_t(self):
-        condition = self._get_parameter()
-        destination = self._get_parameter()
+        condition = self._read_value()
+        destination = self._read_value()
         if condition:
             self._jump(destination)
 
     def _jmp_f(self):
-        condition = self._get_parameter()
-        destination = self._get_parameter()
+        condition = self._read_value()
+        destination = self._read_value()
         if not condition:
             self._jump(destination)
 
     def _less(self):
-        gliech = 1 if self._get_parameter() < self._get_parameter() else 0
+        gliech = 1 if self._read_value() < self._read_value() else 0
         self._write_value(gliech)
 
     def _equals(self):
-        gliech = 1 if self._get_parameter() == self._get_parameter() else 0
+        gliech = 1 if self._read_value() == self._read_value() else 0
         self._write_value(gliech)
 
     def _set_rb(self):
-        self._relative_base+=self._get_parameter()
+        self._relative_base+=self._read_value()
 
     def _exit(self):
         raise EndOfProgram
