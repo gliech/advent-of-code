@@ -1,37 +1,36 @@
 # Setup
 from aocd import get_data
 from re import findall
-from blessed import Terminal
-from time import sleep
-from pprint import pprint
-from itertools import combinations, chain
+from itertools import combinations
 from operator import itemgetter
+from functools import reduce
+from math import gcd
 
 def convert_moon(coord_str):
-    numbers = map(int, findall(r'-?\d+', coord_str))
-    return [[number,0] for number in numbers]
+    return tuple(map(int, findall(r'-?\d+', coord_str)))
 
-moons = list(map(convert_moon, get_data(year=2019, day=12).split('\n')))
-past_moons = set()
+moons = tuple(map(convert_moon,get_data(year=2019, day=12).split('\n')))
 
+def one_dim_repeat(dimension):
+    view = [[moon[dimension],0] for moon in moons]
+    past_views=set()
+    while repr(view) not in past_views:
+        past_views.add(repr(view))
+        for moon_pair in combinations(view,2):
+            low_moon = min(moon_pair, key=itemgetter(0))
+            high_moon = max(moon_pair, key=itemgetter(0))
+            if low_moon[0] != high_moon[0]:
+                low_moon[1]+=1
+                high_moon[1]-=1
+        for moon in view:
+            moon[0]+=moon[1]
+    elapsed_steps = len(past_views)
+    return elapsed_steps
 
-while repr(moons) not in past_moons:
-    past_moons.add(repr(moons))
+def scm(*args):
+    simple_scm = lambda a,b: abs(a*b)//gcd(a,b)
+    return reduce(simple_scm,args,1)
 
-    for moon_pair in combinations(moons,2):
-        for axis_pair in zip(*moon_pair):
-            small_axis = min(axis_pair, key=itemgetter(0))
-            big_axis = max(axis_pair, key=itemgetter(0))
-            if small_axis[0] != big_axis[0]:
-                small_axis[1]+=1
-                big_axis[1]-=1
+one_dim_repeats = tuple(map(one_dim_repeat,range(3)))
+print(scm(*one_dim_repeats))
 
-    for axis in chain(*moons):
-        axis[0]+=axis[1]
-
-def energy(moon):
-    pot_energy = sum(map(abs,map(itemgetter(0),moon)))
-    kin_energy = sum(map(abs,map(itemgetter(1),moon)))
-    return pot_energy*kin_energy
-
-print(len(past_moons))
