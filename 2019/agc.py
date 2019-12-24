@@ -6,6 +6,9 @@ from curses_helper import curse_attr
 class EndOfProgram(Exception):
     pass
 
+class EndOfInputStream(Exception):
+    pass
+
 class AdventGuidanceComputer:
     def __init__(self, program, inputs=[], window=None, delay=0):
         self._parameter_modes = [
@@ -92,7 +95,10 @@ class AdventGuidanceComputer:
             return output
 
     def _next_input(self):
-        return next(self._input_iterator)
+        try:
+            return next(self._input_iterator)
+        except StopIteration as e:
+            raise EndOfInputStream
 
     def _increment(self):
         value = self._memory[self._position]
