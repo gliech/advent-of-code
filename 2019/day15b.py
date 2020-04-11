@@ -38,9 +38,9 @@ with curse(hide_cursor=True) as scr:
     next_direction = (3,2,0,1)
     movement_tuples = ((-1,0), (1,0), (0,-1), (0,1))
     tileset = [
-        ['#', curse_attr('light', 'red')],
+        ['#', curse_attr(167)],
         ['.', curse_attr('light', 'black')],
-        ['$', curse_attr('light', 'yellow', 'bold')]
+        ['$', curse_attr(221, 'bold')]
     ]
 
     def draw_world():
@@ -80,7 +80,7 @@ with curse(hide_cursor=True) as scr:
 
     def simple_move():
         global robot_direction
-        sleep(0.01)
+        sleep(0.04)
         if last_status == 0:
             robot_direction = next_direction[robot_direction]
         else:
@@ -122,7 +122,7 @@ with curse(hide_cursor=True) as scr:
             main_container.refresh()
         draw_world()
         if status == 2:
-            scr.getch()
+            sleep(5)
             if not found_oxygen:
                 found_oxygen = True
                 reset_distance()
