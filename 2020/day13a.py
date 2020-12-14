@@ -9,12 +9,8 @@ data = [int(data[0]), [int(a) if a!='x' else a for a in data[1].split(',')]]
 # Longform
 def long_solution(data):
     arrival = int(data[0])
-    print('arrival',arrival)
-    print('busses_raw',data[1])
     busses = list(map(int, filter(lambda a: a != 'x', data[1])))
-    print('busses', busses)
     departures = list(map(lambda a: (a, (a-arrival%a)%a), busses))
-    print('departures',departures)
     earliest_departure = min(departures, key=lambda a: a[1])
     return earliest_departure[0]*earliest_departure[1]
 
