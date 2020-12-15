@@ -1,14 +1,12 @@
 # Setup
 from aocd import get_data
+from re import findall as find
 
 data = get_data(year=2020, day=14).split('\n')
 data = [tuple(map(int, find(r'(\d+)\D+(\d+)', l)[0])) if l[1]=='e' else find(r'[10X]+', l)[0] for l in data]
 
 #Solution
-from re import findall as find
-from collections import defaultdict
-
-memory = defaultdict(int)
+memory = {}
 
 for line in data:
     if type(line) is str:
