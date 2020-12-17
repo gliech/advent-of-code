@@ -1,4 +1,3 @@
-# Setup
 from aocd import get_data
 from itertools import product, repeat
 
@@ -14,7 +13,7 @@ def neighbours(*args):
 def calculate_cell(last_state, cell):
     live_neighbours = last_state.intersection(neighbours(*cell))
     if cell in live_neighbours:
-        return 3<=len(live_neighbours)<=4
+        return 3 <= len(live_neighbours) <= 4
     else:
         return len(live_neighbours) == 3
 
@@ -23,7 +22,7 @@ def extend_next_state(next_state, last_state, cell):
         if neighbour not in next_state:
             next_state[neighbour] = calculate_cell(last_state, neighbour)
 
-def next_state(last_state):
+def step_state(last_state):
     next_state = dict()
     for cell in last_state:
         extend_next_state(next_state, last_state, cell)
@@ -35,7 +34,7 @@ data = get_data(None,17,2020)
 def run_automaton(data, dimensions):
     state = set(import_state(data, dimensions))
     for _ in range(6):
-        state = next_state(state)
+        state = step_state(state)
     return len(state)
 
 print('Part 1:', run_automaton(data, 3))
