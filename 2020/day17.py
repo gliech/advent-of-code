@@ -1,12 +1,12 @@
 # Setup
 from aocd import get_data
-from itertools import product
+from itertools import product, repeat
 
-def import_state(plane):
+def import_state(plane, dim):
     for x, line in enumerate(plane.split('\n')):
         for y, cell in enumerate(line):
             if cell == "#":
-                yield (x,y,0,0)
+                yield (x, y, *repeat(0, dim-2))
 
 def neighbours(*args):
     return product(*map(lambda a: range(a-1, a+2), args))
@@ -32,8 +32,11 @@ def next_state(last_state):
 data = get_data(None,17,2020)
 # data = ".#.\n..#\n###"
 
-state = set(import_state(data))
-for _ in range(6):
-    state = next_state(state)
-print(len(state))
+def run_automaton(data, dimensions):
+    state = set(import_state(data, dimensions))
+    for _ in range(6):
+        state = next_state(state)
+    return len(state)
 
+print('Part 1:', run_automaton(data, 3))
+print('Part 2:', run_automaton(data, 4))
