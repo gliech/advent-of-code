@@ -11,11 +11,11 @@ def neighbours(*args):
     return product(*map(lambda a: range(a-1, a+2), args))
 
 def calculate_cell(last_state, cell):
-    live_neighbours = last_state.intersection(neighbours(*cell))
-    if cell in live_neighbours:
-        return 3 <= len(live_neighbours) <= 4
+    living_neighbours = last_state.intersection(neighbours(*cell))
+    if cell in living_neighbours:
+        return 3 <= len(living_neighbours) <= 4
     else:
-        return len(live_neighbours) == 3
+        return len(living_neighbours) == 3
 
 def extend_next_state(next_state, last_state, cell):
     for neighbour in neighbours(*cell):
@@ -28,14 +28,14 @@ def step_state(last_state):
         extend_next_state(next_state, last_state, cell)
     return set(key for key, value in next_state.items() if value)
 
-data = get_data(None,17,2020)
-# data = ".#.\n..#\n###"
-
 def run_automaton(data, dimensions):
     state = set(import_state(data, dimensions))
     for _ in range(6):
         state = step_state(state)
     return len(state)
+
+data = get_data(None,17,2020)
+# data = ".#.\n..#\n###"
 
 print('Part 1:', run_automaton(data, 3))
 print('Part 2:', run_automaton(data, 4))
