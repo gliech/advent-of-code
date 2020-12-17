@@ -7,18 +7,18 @@ def import_state(plane, dim):
             if cell == "#":
                 yield (x, y, *repeat(0, dim-2))
 
-def neighbours(*args):
-    return product(*map(lambda a: range(a-1, a+2), args))
+def neighbours(coord):
+    return product(*map(lambda a: range(a-1, a+2), coord))
 
 def calculate_cell(last_state, cell):
-    living_neighbours = last_state.intersection(neighbours(*cell))
+    living_neighbours = last_state.intersection(neighbours(cell))
     if cell in living_neighbours:
         return 3 <= len(living_neighbours) <= 4
     else:
         return len(living_neighbours) == 3
 
 def extend_next_state(next_state, last_state, cell):
-    for neighbour in neighbours(*cell):
+    for neighbour in neighbours(cell):
         if neighbour not in next_state:
             next_state[neighbour] = calculate_cell(last_state, neighbour)
 
