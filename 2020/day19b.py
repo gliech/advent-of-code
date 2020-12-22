@@ -6,7 +6,7 @@ def expand_rule(rule_id):
     encase = '|' in rule
     expanded_rule = []
     for cell in rule:
-        if type(cell) == int:
+        if cell.isnumeric():
             expanded_rule += expand_rule(cell)
         else:
             expanded_rule.append(cell)
@@ -14,18 +14,20 @@ def expand_rule(rule_id):
         expanded_rule = ['('] + expanded_rule + [')']
     return expanded_rule
 
-data = get_data(year=2020, day=19)
-rules, messages = data.split('\n\n')
+rules, messages = get_data(year=2020, day=19).split('\n\n')
+
 rules = rules.replace('"', '').split('\n')
-rules = {int((r:=rule.split(':'))[0]): [int(c) if c.isnumeric() else c for c in r[1].split()] for rule in rules}
-rules[8] = [42,'+']
-valid_messages = set()
+rules = {(r:=rule.split(':'))[0]: r[1].split() for rule in rules}
+rules['8'] = ['42','+']
+
 messages = messages.split('\n')
+valid_msgs = set()
 
-#this feels dirty V
-for i in range(1,20):
-    rules[11] = [42,f'{{{i}}}',31,f'{{{i}}}']
-    rule = re.compile(r''.join(expand_rule(0)))
-    valid_messages.update(filter(lambda a: bool(re.fullmatch(rule, a)), messages))
+# this is dirty V
+for i in range(1,10):
+    quantifier = f'{{{i}}}'
+    rules['11'] = ['42', quantifier, '31',quantifier]
+    rule = re.compile(r''.join(expand_rule('0')))
+    valid_msgs.update(filter(lambda a: bool(re.fullmatch(rule, a)), messages))
 
-print(len(valid_messages))
+print(len(valid_msgs))
