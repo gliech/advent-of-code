@@ -1,4 +1,3 @@
-# Setup
 from aocd import get_data
 from collections import Counter
 from operator import mul, itemgetter
@@ -13,5 +12,4 @@ def sieve(data, bitcrit, idx=0):
         bit = bitcrit(map(partial(bitcrit, key=acc.get), [acc, reversed(acc)]))
         return sieve([x for x in data if x[idx] == bit], bitcrit, idx+1)
 
-solution = mul(*(sieve(data, criterion) for criterion in (min, max)))
-print(solution)
+print(sieve(data, min)*sieve(data, max))
