@@ -11,10 +11,10 @@ def flashed_at(a):
 
 def main_loop(data):
     for i in count():
-        if np.alltrue(data==0):
+        if np.all(data==0):
             return i
         data += 1
-        while len(data[data>9]):
+        while np.any(data>9):
             data = scipy.ndimage.generic_filter(data, flashed_at, size = 3,
                     mode='constant', cval=-1)
 
