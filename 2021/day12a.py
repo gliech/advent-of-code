@@ -1,16 +1,14 @@
 from aocd import get_data
 from collections import defaultdict
 
-def swim_through_cave(path=['start'], paths_to_end=0):
-    current_room = path[-1]
-    if current_room == 'end':
-        paths_to_end += 1
-    else:
-        for door in rooms[current_room] - (set(path) & small_rooms):
-            path.append(door)
-            paths_to_end = swim_through_cave(path, paths_to_end)
-            path.pop()
-    return paths_to_end
+def swim_through_cave(path=[], room='start'):
+    if room == 'end':
+        return 1
+    path.append(room)
+    doors = rooms[room] - (set(path) & small_rooms)
+    ends = sum(swim_through_cave(path, door) for door in doors)
+    path.pop()
+    return ends
 
 data = get_data(year=2021, day=12)
 rooms = defaultdict(set)
