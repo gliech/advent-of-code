@@ -17,8 +17,9 @@ C Z"""
 
 def play(a):
     op, me = map(partial(int, base=36), a.split(" "))
-    return 6-(op - me)%3*3+me-32
-    # return (op - me)%3
+    # return 7-(op-me)%3*3+me%3
+    # return me-(op-me)%3*3-26
+    return (me-op-1)%3*3+me%3+1
 
 def solution(data):
     return sum(map(play, data.split("\n")))
