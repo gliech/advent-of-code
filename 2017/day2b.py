@@ -15,8 +15,8 @@ def long_solution(data):
 def golfed_solution(d):
     from itertools import combinations, starmap
     from operator import floordiv, mod
-    #return sum(map(lambda c: c[1]//c[0],map(lambda r: min(map(sorted,combinations(r,2)),key=lambda x:x[1]%x[0]),d)))
-    return sum(starmap(floordiv,map(lambda r: min(map(lambda y: **sorted(y,reverse=True),combinations(r,2)),key=mod),d)))
+    return sum(map(lambda c: c[1]//c[0],map(lambda r: min(map(sorted,combinations(r,2)),key=lambda x:x[1]%x[0]),d)))
+    #return sum(starmap(floordiv,map(lambda r: min(map(lambda y: **sorted(y,reverse=True),combinations(r,2)),key=mod),d)))
 
 
 # Output

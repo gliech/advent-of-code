@@ -10,6 +10,7 @@ advent-of-code-data = "*"
 numpy = "*"
 toolz = "*"
 scipy = "*"
+bidict = "*"
 
 [requires]
 python_version = "3.10"
