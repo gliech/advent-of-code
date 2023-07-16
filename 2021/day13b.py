@@ -18,9 +18,9 @@ for axis, offset in map(methodcaller('split', '='), instructions):
     top, _, bottom = np.vsplit(paper, [offset, offset+1])
     bottom = np.flipud(bottom)
     small, big = sorted((top, bottom), key=lambda a: a.size)
-    small = np.pad(small, ((big.shape[0]-small.shape[0],0),(0,0)))
-    paper = small + big
+    big[-small.shape[0]:] += small
+    paper = big
     paper = np.rot90(paper, rotate)
 
 for line in paper:
-    print(''.join('#' if dot > 0 else '0' for dot in line))
+    print(''.join('#' if dot > 0 else ' ' for dot in line))
