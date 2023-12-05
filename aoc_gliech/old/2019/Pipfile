@@ -20,4 +20,4 @@ urllib3 = "==1.25.7"
 Pebble = "==4.4.0"
 
 [requires]
-python_version = "3.8"
+python_version = ">=3.8"
