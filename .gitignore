@@ -1,2 +1,6 @@
-venv/
 __pycache__/
+.terraform/
+.pdm-python
+pdm.lock
+terraform.tfstate
+terraform.tfstate.backup

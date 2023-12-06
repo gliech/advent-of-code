@@ -26,5 +26,6 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/gliech/advent-of-code"
 
-[project.entry-points]
-"adventofcode.user" = {gliech = "aoc_gliech:aocd_entrypoint"}
+[project.entry-points."adventofcode.user"]
+gliech = "aoc_gliech:aocd_entrypoint"
+tofu = "aoc_tofu:aocd_entrypoint"
