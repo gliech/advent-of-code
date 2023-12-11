@@ -11,12 +11,14 @@ def part_b(data):
     return sum((f:=lambda p: int(n) if len(n:=re.match(f"(?:.*{p})({"|".join(match)})", l).group(1))==1 else match.index(n))("?")*10+f("") for l in prep(data))
 
 if __name__ == "__main__":
-    from aocd import get_data
-    test = """two1nine
-eightwoeighthree
-abcone2threexyz
-xtwone3four
-4nineeightseven2
-zoneight234
-7pqrstsixteen"""
-    print(part_b(test))
+    from aoc_gliech import solve
+    custom_data = """
+    two1nine6
+    eightwo77eighthree
+    abcone2three7xyz
+    xtwone34four
+    4nineeightseven2
+    zoneight234
+    7pqrstsixteen
+    """
+    solve(part_a, part_b, data=custom_data)

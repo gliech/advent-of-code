@@ -44,5 +44,5 @@ def part_b(data):
 
 
 if __name__ == "__main__":
-    from aocd import get_data
-    print(part_b(get_data(year=2023, day=3)))
+    from aoc_gliech import solve
+    solve(part_a, part_b)

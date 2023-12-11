@@ -23,7 +23,9 @@ def part_b_fast(data):
 
 part_b = part_b_fast
 
+# def sanity_check(data):
+#     return all(len(card)==len(set(card)) for card in chain(*prep(data)))
+
 if __name__ == "__main__":
-    from aocd import get_data
-    print(part_b(get_data(day=4, year=2023)))
-    #print(all(len(card)==len(set(card)) for card in chain(*prep(get_data(day=4, year=2023)))))
+    from aoc_gliech import solve
+    solve(prep, sanity_check, part_a, part_b_short, part_b_fast, day=4)

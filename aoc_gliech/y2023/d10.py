@@ -1,6 +1,5 @@
 from functools import cache
 from numpy import array as arr, where
-from textwrap import dedent
 
 def prep(data):
     data = data.split('\n')
@@ -71,11 +70,11 @@ def part_b(data):
 
 if __name__ == "__main__":
     from aoc_gliech import solve
-    test = dedent("""
+    test = """
         7-F-7-
         .FJ.|7
         SJL.L7
         |F---J
         LJ..LJ
-        """).strip()
-    solve(part_a, part_b, data=None)
+        """
+    solve(part_a, part_b, data=test)

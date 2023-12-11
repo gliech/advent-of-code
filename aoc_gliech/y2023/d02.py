@@ -20,5 +20,5 @@ def part_b(data):
     return sum(reduce(mul, game.values()) for game in prep(data))
 
 if __name__ == "__main__":
-    from aocd import get_data
-    print(part_b(get_data(day=2, year=2023)))
+    from aoc_gliech import solve
+    solve(prep, part_a, part_b)
