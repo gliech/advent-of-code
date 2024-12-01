@@ -10,14 +10,14 @@ def part_a(data):
     return sum(map(hash_algo, prep(data)))
 
 def part_b(data):
-    boxes = defaultdict(lambda: defaultdict(int))
+    boxes = defaultdict(dict)
     for line in prep(data):
         instruction = line.split("=")
         if len(instruction) == 1:
             label = instruction[0][:-1]
             box = hash_algo(label)
-            boxes[box][label] = boxes[box][label]
-            del boxes[box][label]
+            if label in boxes[box]:
+                del boxes[box][label]
         else:
             label = instruction[0]
             box = hash_algo(label)
