@@ -1,15 +1,16 @@
 [build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
-name = "advent-of-code-gliech"
-description = "My solutions to https://adventofcode.com"
-version = "0.1.0"
-authors = [{name = "gliech"}]
-license = {file = "LICENSE"}
-readme = "README.md"
+name            = "advent-of-code-gliech"
+description     = "My solutions to https://adventofcode.com"
+version         = "0.1.0"
+authors         = [{name = "gliech"}]
+license.file    = "LICENSE"
+readme          = "README.md"
 requires-python = ">=3.12"
+urls.homepage   = "https://github.com/gliech/advent-of-code"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
@@ -18,14 +19,15 @@ classifiers = [
 ]
 dependencies = [
     "advent-of-code-data >= 2.0.0",
-    "browser-cookie3>=0.19.1",
-    "numpy>=1.26.2",
-    "pyyaml>=6.0.1",
+    "browser-cookie3 >= 0.19.1",
+    "numpy >= 1.26.2",
+    "pyyaml >= 6.0.1",
+    "prettyprinter >= 0.18.0",
 ]
-
-[project.urls]
-Homepage = "https://github.com/gliech/advent-of-code"
 
 [project.entry-points."adventofcode.user"]
 gliech = "aoc_gliech:aocd_entrypoint"
-tofu = "aoc_tofu:aocd_entrypoint"
+tofu   = "aoc_tofu:aocd_entrypoint"
+
+[tool.hatch.build.targets.wheel]
+packages = ["aoc_gliech", "aoc_tofu"]

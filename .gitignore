@@ -2,8 +2,7 @@ __pycache__/
 .aoc_input*
 .terraform/
 .terraform.lock.hcl
-.pdm-python
 dist/
-pdm.lock
 terraform.tfstate
 terraform.tfstate.backup
+uv.lock
