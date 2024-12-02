@@ -1,4 +1,3 @@
-import importlib
 import inspect
 import re
 from aocd.get import current_day, get_data, most_recent_year
@@ -11,17 +10,6 @@ from shutil import get_terminal_size
 from textwrap import dedent, indent
 from time import perf_counter
 from traceback import format_exception
-
-def aocd_entrypoint(year, day, data):
-    puzzle_module_name = f"aoc_gliech.y{year}.d{day:02d}"
-    try:
-        puzzle_solutions = importlib.import_module(puzzle_module_name)
-    except ModuleNotFoundError as e:
-        if e.name == puzzle_module_name:
-            return None, None
-        else:
-            raise e
-    return puzzle_solutions.part_a(data), puzzle_solutions.part_b(data)
 
 def _get_calling_file_match(match):
     return int(match.group()) if match is not None else None
