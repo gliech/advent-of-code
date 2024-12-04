@@ -31,4 +31,4 @@ def part_b(word_field):
 
 if __name__ == "__main__":
     from aoc_gliech import solve
-    solve(part_a, part_b,)
+    solve(part_a, part_b)
