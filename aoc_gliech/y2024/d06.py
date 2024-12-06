@@ -5,71 +5,54 @@ def prep(data):
             coord = complex(idx_x, idx_y)
             lab[coord] = char
             if char == "^":
-                position = coord
-    return lab, position
+                vec = coord, -1
+    return lab, vec
+
+def run_guard(lab, vec, path):
+    while True:
+        next_pos = sum(vec)
+        if vec in path:
+            return True
+        path.add(vec)
+        if next_pos not in lab:
+            return False
+        vec = (vec[0], vec[1]*-1j) if lab[next_pos] == "#" else (next_pos, vec[1])
+
+def path_coords(lab, vec):
+    path = set()
+    run_guard(lab, vec, path=path)
+    return set(vec[0] for vec in path)
+
+def block_path(lab, coord):
+    lab[coord] = "#"
+    return lab
 
 def part_a(data):
-    lab, position = prep(data)
-    direction = -1
-    visited = set()
-    while True:
-        visited.add(position)
-        if position+direction not in lab:
-            return len(visited)
-        if lab[position+direction] == "#":
-            direction *= -1j
-        else:
-            position += direction
+    return len(path_coords(*prep(data)))
 
-def loop_detector(lab, position, direction, visited):
-    while True:
-        next_position = position+direction
-        vector = (position, direction)
-        if vector in visited:
-            return True
-        visited.add(vector)
-        if next_position not in lab:
-            return False
-        if lab[next_position] == "#":
-            direction *= -1j
-        else:
-            position += direction
+def part_b_shorter(data):
+    lab, vec = prep(data)
+    coords = path_coords(lab, vec)
+    coords.remove(vec[0])
+    return sum(run_guard(block_path(lab.copy(), i), vec, set()) for i in coords)
 
-def part_b(data):
-    lab, position = prep(data)
-    direction = -1
-    visited = set()
-    visited_coords = set()
-    obstacles = set()
+def part_b_faster(data):
+    lab, vec = prep(data)
+    path, path_coords, loops = set(), set(), 0
     while True:
-        next_position = position+direction
-        vector = (position, direction)
-        if next_position not in lab:
-            return len(obstacles)
-        if lab[next_position] == "." and next_position not in visited_coords:
-            lab[next_position] = "#"
-            if loop_detector(lab, position, direction, visited.copy()):
-                obstacles.add(next_position)
-            lab[next_position] = "."
-        visited.add(vector)
-        visited_coords.add(position)
-        if lab[next_position] == "#":
-            direction *= -1j
-        else:
-            position += direction
+        next_pos = sum(vec)
+        if next_pos not in lab:
+            return loops
+        if lab[next_pos] == "." and next_pos not in path_coords:
+            lab[next_pos] = "#"
+            loops += run_guard(lab, vec, path.copy())
+            lab[next_pos] = "."
+        path.add(vec)
+        path_coords.add(vec[0])
+        vec = (vec[0], vec[1]*-1j) if lab[next_pos] == "#" else (next_pos, vec[1])
 
-example = """\
-....#.....
-.........#
-..........
-..#.......
-.......#..
-..........
-.#..^.....
-........#.
-#.........
-......#..."""
+part_b = part_b_faster
 
 if __name__ == "__main__":
     from aoc_gliech import solve
-    solve(part_a, part_b, data=example)
+    solve(part_a, part_b)
