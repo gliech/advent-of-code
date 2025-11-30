@@ -34,5 +34,8 @@ aoc-scaffold = "aoc_gliech.scripts:create_day_file"
 gliech_py = "aoc_gliech.entrypoints:python"
 gliech_tf = "aoc_gliech.entrypoints:tofu"
 
+[tool.hatch.build.targets.sdist]
+exclude = ["legacy", "template.py"]
+
 [tool.hatch.build.targets.wheel]
 packages = ["aoc_gliech"]
