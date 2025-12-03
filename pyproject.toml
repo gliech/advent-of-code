@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name            = "advent-of-code-gliech"
 description     = "My solutions to https://adventofcode.com"
-version         = "0.1.0"
+version         = "0.2.0"
 authors         = [{name = "gliech"}]
 license.file    = "LICENSE"
 readme          = "README.md"
@@ -39,3 +39,6 @@ exclude = ["legacy", "template.py"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["aoc_gliech"]
+
+[tool.advent-of-code-gliech]
+puzzle_path = "aoc_gliech/y{year}/d{day:02d}.py"
