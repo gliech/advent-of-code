@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name            = "advent-of-code-gliech"
 description     = "My solutions to https://adventofcode.com"
-version         = "0.2.0"
+version         = "0.3.0"
 authors         = [{name = "gliech"}]
 license.file    = "LICENSE"
 readme          = "README.md"

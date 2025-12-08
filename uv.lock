@@ -20,7 +20,7 @@ wheels = [
 
 [[package]]
 name = "advent-of-code-gliech"
-version = "0.1.0"
+version = "0.3.0"
 source = { editable = "." }
 dependencies = [
     { name = "advent-of-code-data" },
@@ -45,11 +45,11 @@ requires-dist = [
 
 [[package]]
 name = "aocd-example-parser"
-version = "2025.12.1"
+version = "2025.12.8"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ce/99/a7b5f6920c4c37c4ab1e3a7f1e08232be5fae7270849e8b07e16d85ed729/aocd_example_parser-2025.12.1.tar.gz", hash = "sha256:a553fb0ed619d3328245d64d0e439ade8fcef2184b3f4a08360716ec5a401dc3", size = 14790, upload-time = "2025-12-01T06:13:01.377Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/95/de/f2407bd1a6513ae5bfde92d133284fb79d546512848da82901d04ca9ad96/aocd_example_parser-2025.12.8.tar.gz", hash = "sha256:346b07a2f2a7eac197f4e7605be6f27312c47926fc9fc7e5b66a4382e66afd0f", size = 14760, upload-time = "2025-12-08T05:59:36.412Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e5/21/014ae4ab7ec0bb661b05c314f1b9c4782c09ee8106454a8c1324954ce9c3/aocd_example_parser-2025.12.1-py3-none-any.whl", hash = "sha256:9180ef01a9962e9783a67dffe3a197fb9d708c95c7768ba435b4c5f6e73f45a2", size = 13195, upload-time = "2025-12-01T06:13:00.204Z" },
+    { url = "https://files.pythonhosted.org/packages/14/b5/0bac177b682f835c705cb1921fbbb9896bfec2c423048e2c5990a48ae675/aocd_example_parser-2025.12.8-py3-none-any.whl", hash = "sha256:3caa2e4711286dc8dde77ee641cfc894396d82c9550277118407ba8c24c4de09", size = 13179, upload-time = "2025-12-08T05:59:35.224Z" },
 ]
 
 [[package]]
@@ -447,11 +447,11 @@ wheels = [
 
 [[package]]
 name = "urllib3"
-version = "2.5.0"
+version = "2.6.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/15/22/9ee70a2574a4f4599c47dd506532914ce044817c7752a79b6a51286319bc/urllib3-2.5.0.tar.gz", hash = "sha256:3fc47733c7e419d4bc3f6b3dc2b4f890bb743906a30d56ba4a5bfa4bbff92760", size = 393185, upload-time = "2025-06-18T14:07:41.644Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1c/43/554c2569b62f49350597348fc3ac70f786e3c32e7f19d266e19817812dd3/urllib3-2.6.0.tar.gz", hash = "sha256:cb9bcef5a4b345d5da5d145dc3e30834f58e8018828cbc724d30b4cb7d4d49f1", size = 432585, upload-time = "2025-12-05T15:08:47.885Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a7/c2/fe1e52489ae3122415c51f387e221dd0773709bad6c6cdaa599e8a2c5185/urllib3-2.5.0-py3-none-any.whl", hash = "sha256:e6b01673c0fa6a13e374b50871808eb3bf7046c4b125b216f6bf1cc604cff0dc", size = 129795, upload-time = "2025-06-18T14:07:40.39Z" },
+    { url = "https://files.pythonhosted.org/packages/56/1a/9ffe814d317c5224166b23e7c47f606d6e473712a2fad0f704ea9b99f246/urllib3-2.6.0-py3-none-any.whl", hash = "sha256:c90f7a39f716c572c4e3e58509581ebd83f9b59cced005b7db7ad2d22b0db99f", size = 131083, upload-time = "2025-12-05T15:08:45.983Z" },
 ]
 
 [[package]]
